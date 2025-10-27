@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎁 El Rincón de la Tati — Catálogo Navideño</title>
-
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -76,45 +75,46 @@
   <h1>🎁 El Rincón de la Tati</h1>
   <h2>Catálogo de Productos Navideños</h2>
 
-  <div id="catalogo" class="productos">
-    <p style="color:#999;">Cargando productos...</p>
-  </div>
+  <div id="catalogo" class="productos"></div>
 
   <footer>© 2025 El Rincón de la Tati — Todos los derechos reservados</footer>
 
   <script>
-    async function cargarCatalogo() {
-      const contenedor = document.getElementById('catalogo');
-      contenedor.innerHTML = '<p style="color:#999;">Cargando productos...</p>';
-      try {
-        // 🔗 Ruta CDN segura que no bloquea GitHub Pages
-        const response = await fetch('https://cdn.jsdelivr.net/gh/carlos-gomez-1969/catalogo/catalogo.json', { cache: "no-store" });
-        if (!response.ok) throw new Error("No se pudo cargar el catálogo");
-
-        const data = await response.json();
-        contenedor.innerHTML = '';
-
-        if (data.length === 0) {
-          contenedor.innerHTML = '<p style="color:#b22222;">No hay productos disponibles.</p>';
-          return;
-        }
-
-        data.forEach(item => {
-          const producto = document.createElement('div');
-          producto.className = 'card';
-          producto.innerHTML = `
-            <img src="${item.Imagen}" alt="${item.Producto}">
-            <div class="info">
-              <div class="nombre">${item.Producto}</div>
-              <div class="precio">${item.Precio}</div>
-            </div>
-          `;
-          contenedor.appendChild(producto);
-        });
-      } catch (error) {
-        console.error("Error cargando catálogo:", error);
-        contenedor.innerHTML = '<p style="color:#b22222;">⚠️ Error al cargar los productos.</p>';
+    // 🧩 Datos internos tipo "dataframe"
+    const productos = [
+      {
+        Producto: "Pie de árbol 1",
+        Imagen: "https://drive.google.com/uc?export=view&id=1ggLsNp3HMSF0mG136U19fh4zFomuMwN_",
+        Precio: "$5.000"
+      },
+      {
+        Producto: "Pie de árbol 2",
+        Imagen: "https://drive.google.com/uc?export=view&id=1GUIC2qxBh2S8YWtxkU29qgwZyDzzue1j",
+        Precio: "$5.000"
+      },
+      {
+        Producto: "Adorno de estrella dorada",
+        Imagen: "https://via.placeholder.com/400x250?text=Estrella+Dorada",
+        Precio: "$3.000"
       }
+    ];
+
+    function cargarCatalogo() {
+      const contenedor = document.getElementById('catalogo');
+      contenedor.innerHTML = '';
+
+      productos.forEach(item => {
+        const producto = document.createElement('div');
+        producto.className = 'card';
+        producto.innerHTML = `
+          <img src="${item.Imagen}" alt="${item.Producto}">
+          <div class="info">
+            <div class="nombre">${item.Producto}</div>
+            <div class="precio">${item.Precio}</div>
+          </div>
+        `;
+        contenedor.appendChild(producto);
+      });
     }
 
     cargarCatalogo();
