@@ -1,12 +1,12 @@
 [
   {
-    "Producto": "Decoración navideña de madera",
-    "Imagen": "https://i.imgur.com/abc123.jpg",
-    "Precio": "$8.000"
+    "Producto": "Pie de arbol 1",
+    "Imagen": "https://drive.google.com/file/d/1ggLsNp3HMSF0mG136U19fh4zFomuMwN_/view?usp=drive_link",
+    "Precio": "$5.000"
   },
   {
-    "Producto": "Corona de Navidad tejida",
-    "Imagen": "https://i.imgur.com/xyz456.jpg",
-    "Precio": "$12.000"
+    "Producto": "Pie de arbol 2",
+    "Imagen": "https://drive.google.com/file/d/1GUIC2qxBh2S8YWtxkU29qgwZyDzzue1j/view?usp=drive_link",
+    "Precio": "$5.000"
   }
 ]
