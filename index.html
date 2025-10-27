@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎄 El Rincón de la Tati — Catálogo Navideño 🎁</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎁 El Rincón de la Tati — Catálogo Navideño</title>
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #fff7f0, #ffe4e1);
+      background: linear-gradient(135deg, #fff6f0, #ffe2d1);
       color: #333;
       text-align: center;
       margin: 0;
       padding: 20px;
     }
     h1 {
-      color: #c0392b;
-      font-size: 2.2em;
+      color: #b22222;
+      font-size: 2.3em;
       margin-bottom: 5px;
     }
     h2 {
       color: #a93226;
-      margin-top: 10px;
       font-weight: normal;
+      margin-top: 10px;
     }
     .productos {
       display: grid;
@@ -32,15 +32,15 @@
       padding: 0 10px;
     }
     .card {
-      background: white;
+      background: #fff;
       border-radius: 15px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     }
     .card img {
       width: 100%;
@@ -77,37 +77,48 @@
   <h2>Catálogo de Productos Navideños</h2>
 
   <div id="catalogo" class="productos">
-    <p>Cargando productos...</p>
+    <p style="color:#999;">Cargando productos...</p>
   </div>
 
   <footer>© 2025 El Rincón de la Tati — Todos los derechos reservados</footer>
 
   <script>
     async function cargarCatalogo() {
-      const response = await fetch('https://carlos-gomez-1969.github.io/catalogo/catalogo.json');
-      const arrayBuffer = await response.arrayBuffer();
-      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-      const sheet = workbook.Sheets["PRODUCTOS"];
-      const data = XLSX.utils.sheet_to_json(sheet);
-
       const contenedor = document.getElementById('catalogo');
-      contenedor.innerHTML = '';
+      contenedor.innerHTML = '<p style="color:#999;">Cargando productos...</p>';
+      try {
+        // 🔗 Ruta CDN segura que no bloquea GitHub Pages
+        const response = await fetch('https://cdn.jsdelivr.net/gh/carlos-gomez-1969/catalogo/catalogo.json', { cache: "no-store" });
+        if (!response.ok) throw new Error("No se pudo cargar el catálogo");
 
-      data.forEach(item => {
-        const producto = document.createElement('div');
-        producto.className = 'card';
-        producto.innerHTML = `
-          <img src="${item.Imagen}" alt="${item.Producto}">
-          <div class="info">
-            <div class="nombre">${item.Producto}</div>
-            <div class="precio">${item.Precio}</div>
-          </div>
-        `;
-        contenedor.appendChild(producto);
-      });
+        const data = await response.json();
+        contenedor.innerHTML = '';
+
+        if (data.length === 0) {
+          contenedor.innerHTML = '<p style="color:#b22222;">No hay productos disponibles.</p>';
+          return;
+        }
+
+        data.forEach(item => {
+          const producto = document.createElement('div');
+          producto.className = 'card';
+          producto.innerHTML = `
+            <img src="${item.Imagen}" alt="${item.Producto}">
+            <div class="info">
+              <div class="nombre">${item.Producto}</div>
+              <div class="precio">${item.Precio}</div>
+            </div>
+          `;
+          contenedor.appendChild(producto);
+        });
+      } catch (error) {
+        console.error("Error cargando catálogo:", error);
+        contenedor.innerHTML = '<p style="color:#b22222;">⚠️ Error al cargar los productos.</p>';
+      }
     }
 
     cargarCatalogo();
   </script>
+
 </body>
 </html>
