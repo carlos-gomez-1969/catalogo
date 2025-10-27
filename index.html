@@ -84,7 +84,7 @@
 
   <script>
     async function cargarCatalogo() {
-      https://cdn.jsdelivr.net/gh/carlos-gomez-1969/catalogo/catalogo.json
+      const response = await fetch('https://carlos-gomez-1969.github.io/catalogo/catalogo.json');
       const arrayBuffer = await response.arrayBuffer();
       const workbook = XLSX.read(arrayBuffer, { type: 'array' });
       const sheet = workbook.Sheets["PRODUCTOS"];
