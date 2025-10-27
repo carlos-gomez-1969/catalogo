@@ -84,7 +84,7 @@
 
   <script>
     async function cargarCatalogo() {
-      const response = await fetch('CATALOGO.xlsx');
+      const response = await fetch('catalogo.json');
       const arrayBuffer = await response.arrayBuffer();
       const workbook = XLSX.read(arrayBuffer, { type: 'array' });
       const sheet = workbook.Sheets["PRODUCTOS"];
