@@ -1,159 +1,201 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎁 El Rincón de la Tati — Catálogo Navideño</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎁 El Rincón de la Tati — Catálogo</title>
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #fff6f0, #ffe2d1);
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-  }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #FFEDE3;
+      color: #5A1E1E;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-  h1 {
-    color: #b22222;
-    margin-top: 30px;
-  }
+    header {
+      background-color: #FFEDE3;
+      padding: 20px 10px 10px 10px;
+    }
 
-  p {
-    color: #5a2a2a;
-  }
+    h1 {
+      font-size: 2em;
+      color: #B22222;
+    }
 
-  /* Contenedor general */
-  #catalogo {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    h2 {
+      font-weight: normal;
+      color: #8B0000;
+      margin-top: -10px;
+    }
 
-  /* Tarjetas de producto */
-  .card {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+    .productos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
 
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  }
+    .producto {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      width: 280px;
+      transition: transform 0.2s ease-in-out;
+    }
 
-  /* Imagen del producto */
-  .card img {
-    width: 100%;
-    height: 250px;              /* altura consistente */
-    object-fit: cover;          /* recorta sin deformar */
-    display: block;
-  }
+    .producto:hover {
+      transform: scale(1.03);
+    }
 
-  /* Información */
-  .info {
-    padding: 15px;
-  }
+    .producto img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
 
-  .nombre {
-    font-size: 20px;
-    font-weight: bold;
-    color: #b22222;
-    margin-bottom: 8px;
-  }
+    .precio {
+      font-weight: bold;
+      color: #B22222;
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
 
-  .precio {
-    background: #b22222;
-    color: #fff;
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 16px;
-  }
+    .btn-elegir {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-  footer {
-    margin-top: 40px;
-    padding: 20px;
-    font-size: 14px;
-    color: #777;
-  }
-</style>
+    .btn-elegir:hover {
+      background-color: #c0392b;
+    }
 
+    .btn-elegir.activo {
+      background-color: #27ae60;
+    }
+
+    #resumen {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 25px auto;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1EBE57;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>🎁 El Rincón de la Tati</h1>
-  <h2>Catálogo de Productos Navideños</h2>
+  <header>
+    <h1>🎁 El Rincón de la Tati</h1>
+    <h2>Catálogo de Productos Navideños</h2>
+  </header>
 
-  <div id="catalogo" class="productos"></div>
-
-  <footer>© 2025 El Rincón de la Tati — Todos los derechos reservados</footer>
+  <main>
+    <div class="productos-container" id="productos"></div>
+    <div id="resumen"></div>
+  </main>
 
   <script>
-    // 🧩 Datos internos tipo "dataframe"
     const productos = [
       {
         Producto: "Pie de árbol color rojo",
-        Imagen: "https://dl.dropboxusercontent.com/scl/fi/csj9mr99n5g6hx9uj9qic/Pie-de-arbol-color-rojo.jpg?rlkey=fg5dl8o6zyznd0va6w2iv6tty&st=llj0bp60&dl=1",
+        Imagen: "https://dl.dropboxusercontent.com/scl/fi/0raslkpkk3t3m0mc1saxs/IMG1.jpg?rlkey=dme3ci5kh64on4n2qr6zx6im2",
         Precio: "$5.000"
       },
       {
         Producto: "Pie de árbol color verde",
-        Imagen: "https://dl.dropboxusercontent.com/scl/fi/2zthpks4gv2u98ebxe7kj/Pie-de-arbol-color-verde.jpg?rlkey=7f0q4169c9ftevjzul5mo2s9i&st=qbferv2c&dl=1",
+        Imagen: "https://dl.dropboxusercontent.com/scl/fi/xxxxx/IMG2.jpg?rlkey=xxxxx",
         Precio: "$5.000"
-      },
-      {
-        Producto: "Adorno de estrella dorada",
-        Imagen: "https://via.placeholder.com/400x250?text=Estrella+Dorada",
-        Precio: "$3.000"
       }
     ];
 
-    function cargarCatalogo() {
-      const contenedor = document.getElementById('catalogo');
-      contenedor.innerHTML = '';
+    let seleccionados = [];
 
-      productos.forEach(item => {
-        const producto = document.createElement('div');
-        producto.className = 'card';
-        producto.innerHTML = `
-          <img src="${item.Imagen}" alt="${item.Producto}">
-          <div class="info">
-            <div class="nombre">${item.Producto}</div>
-            <div class="precio">${item.Precio}</div>
+    function renderProductos() {
+      const contenedor = document.getElementById("productos");
+      contenedor.innerHTML = "";
+      productos.forEach((p, i) => {
+        const elegido = seleccionados.includes(i);
+        contenedor.innerHTML += `
+          <div class="producto">
+            <img src="${p.Imagen}" alt="${p.Producto}">
+            <h3>${p.Producto}</h3>
+            <p class="precio">${p.Precio}</p>
+            <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
+              ${elegido ? '✓ Elegido' : 'Elegir'}
+            </button>
           </div>
         `;
-        contenedor.appendChild(producto);
       });
     }
 
-    cargarCatalogo();
+    function toggleProducto(i) {
+      const index = seleccionados.indexOf(i);
+      if (index === -1) {
+        seleccionados.push(i);
+      } else {
+        seleccionados.splice(index, 1);
+      }
+      renderProductos();
+      mostrarResumen();
+    }
+
+    function mostrarResumen() {
+      const resumen = document.getElementById("resumen");
+      if (seleccionados.length === 0) {
+        resumen.innerHTML = "<p>No has seleccionado productos.</p>";
+        return;
+      }
+      let texto = "<h3>🛒 Productos seleccionados:</h3><ul style='list-style:none;padding:0'>";
+      seleccionados.forEach(i => {
+        texto += `<li>${productos[i].Producto} - ${productos[i].Precio}</li>`;
+      });
+      texto += "</ul><button onclick='enviarWhatsApp()' class='btn-whatsapp'>Enviar pedido por WhatsApp</button>";
+      resumen.innerHTML = texto;
+    }
+
+    function enviarWhatsApp() {
+      const nombre = prompt("Escribe tu nombre:");
+      const telefono = prompt("Tu número de contacto:");
+      if (!nombre || !telefono) {
+        alert("Por favor, completa tus datos para continuar.");
+        return;
+      }
+      let mensaje = `Hola, soy ${nombre} (${telefono}). Me gustaría comprar:\n\n`;
+      seleccionados.forEach(i => {
+        mensaje += `- ${productos[i].Producto} (${productos[i].Precio})\n`;
+      });
+      const url = "https://wa.me/56999256112?text=" + encodeURIComponent(mensaje);
+      window.open(url, "_blank");
+    }
+
+    window.onload = renderProductos;
   </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
