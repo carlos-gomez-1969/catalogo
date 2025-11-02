@@ -77,10 +77,6 @@
       transition: 0.3s;
     }
 
-    .btn-elegir:hover {
-      background-color: #c0392b;
-    }
-
     .btn-elegir.activo {
       background-color: #27ae60;
     }
@@ -109,6 +105,11 @@
       margin-top: 10px;
       line-height: 1.4;
       text-align: justify;
+      display: none;
+    }
+
+    .descripcion.visible {
+      display: block;
     }
 
     .mensaje {
@@ -204,58 +205,57 @@
     ];
 
     let seleccionados = [];
-    let descripcionVisible = [];
 
-    function renderProductos() {
+    function iniciarCatalogo() {
       const contenedor = document.getElementById("productos");
-      contenedor.innerHTML = "";
       productos.forEach((p, i) => {
-        const elegido = seleccionados.includes(i);
-        const mostrarDescripcion = descripcionVisible.includes(i);
-        contenedor.innerHTML += `
-          <div class="producto">
-            <img src="${p.Imagen}" alt="${p.Producto}">
-            <h3>${p.Producto}</h3>
-            <p class="precio">${p.Precio}</p>
-            ${p.Descripcion ? `<button class="btn-ver" onclick="toggleDescripcion(${i})">${mostrarDescripcion ? "Ver menos" : "Ver más"}</button>` : ""}
-            ${mostrarDescripcion && p.Descripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
-            <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
-              ${elegido ? '✓ Elegido' : 'Elegir'}
-            </button>
-            <div id="mensaje-${i}" class="mensaje">Puedes presionar nuevamente para quitar este producto.</div>
-          </div>
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          <img src="${p.Imagen}" alt="${p.Producto}">
+          <h3>${p.Producto}</h3>
+          <p class="precio">${p.Precio}</p>
+          ${p.Descripcion ? `<button class="btn-ver" data-index="${i}">Ver más</button>` : ""}
+          ${p.Descripcion ? `<p class="descripcion" id="desc-${i}">${p.Descripcion}</p>` : ""}
+          <button class="btn-elegir" data-index="${i}">Elegir</button>
+          <div id="mensaje-${i}" class="mensaje">Puedes presionar nuevamente para quitar este producto.</div>
         `;
+        contenedor.appendChild(div);
+      });
+
+      // Asignar eventos
+      document.querySelectorAll(".btn-ver").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const i = e.target.getAttribute("data-index");
+          const desc = document.getElementById(`desc-${i}`);
+          desc.classList.toggle("visible");
+          e.target.textContent = desc.classList.contains("visible") ? "Ver menos" : "Ver más";
+        });
+      });
+
+      document.querySelectorAll(".btn-elegir").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const i = parseInt(e.target.getAttribute("data-index"));
+          toggleProducto(i, e.target);
+        });
       });
     }
 
-    function toggleDescripcion(i) {
-      const index = descripcionVisible.indexOf(i);
-      if (index === -1) descripcionVisible.push(i);
-      else descripcionVisible.splice(index, 1);
-      renderProductos();
-      mostrarResumen();
-    }
-
-    function toggleProducto(i) {
+    function toggleProducto(i, boton) {
       const index = seleccionados.indexOf(i);
+      const mensaje = document.getElementById(`mensaje-${i}`);
       if (index === -1) {
         seleccionados.push(i);
-        mostrarMensaje(i);
+        boton.classList.add("activo");
+        boton.textContent = "✓ Elegido";
+        mensaje.classList.add("visible");
+        setTimeout(() => mensaje.classList.remove("visible"), 2500);
       } else {
         seleccionados.splice(index, 1);
+        boton.classList.remove("activo");
+        boton.textContent = "Elegir";
       }
-      renderProductos();
       mostrarResumen();
-    }
-
-    function mostrarMensaje(i) {
-      setTimeout(() => {
-        const mensaje = document.getElementById(`mensaje-${i}`);
-        if (mensaje) {
-          mensaje.classList.add('visible');
-          setTimeout(() => mensaje.classList.remove('visible'), 2500);
-        }
-      }, 100);
     }
 
     function mostrarResumen() {
@@ -290,7 +290,7 @@
       window.open(url, "_blank");
     }
 
-    window.onload = renderProductos;
+    window.onload = iniciarCatalogo;
   </script>
 </body>
 </html>
