@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎁 El Rincón de la Tati — Catálogo</title>
 
   <style>
@@ -45,15 +45,16 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 15px;
       width: 280px;
-      min-height: 450px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .producto:hover {
+      transform: scale(1.03);
     }
 
     .producto img {
       width: 100%;
-      height: 230px;
+      height: 270px; /* Imagen más grande */
       object-fit: cover;
       border-radius: 10px;
     }
@@ -109,6 +110,12 @@
       text-align: justify;
     }
 
+    .ayuda {
+      font-size: 0.85em;
+      color: #777;
+      margin-top: 6px;
+    }
+
     #resumen {
       background: #fff;
       border-radius: 10px;
@@ -133,25 +140,30 @@
       background-color: #1EBE57;
     }
 
-    p.ayuda {
-      font-size: 0.9em;
-      color: #555;
-      margin-bottom: 20px;
+    .nombre-input {
+      width: 80%;
+      max-width: 400px;
+      padding: 12px;
+      border: 2px solid #B22222;
+      border-radius: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      outline: none;
+      text-align: center;
     }
 
     @media (max-width: 600px) {
       .producto {
         width: 90%;
-        min-height: auto;
       }
       .producto img {
-        height: 200px;
+        height: 220px;
       }
     }
   </style>
 </head>
-
 <body>
+
   <header>
     <h1>🎁 El Rincón de la Tati</h1>
     <h2>Catálogo de Productos Navideños</h2>
@@ -169,13 +181,12 @@
         Producto: "Pie de árbol color rojo",
         Imagen: "https://dl.dropboxusercontent.com/scl/fi/csj9mr99n5g6hx9uj9qic/Pie-de-arbol-color-rojo.jpg?rlkey=fg5dl8o6zyznd0va6w2iv6tty&st=llj0bp60&dl=1",
         Precio: "$5.000",
-        Descripcion: "Producto actualizado y cumple con todos los requisitos para la venta. Este es un producto importado."
+        Descripcion: "Producto de alta calidad, elaborado con materiales resistentes, ideal para decoración navideña."
       },
       {
         Producto: "Pie de árbol color verde",
         Imagen: "https://dl.dropboxusercontent.com/scl/fi/2zthpks4gv2u98ebxe7kj/Pie-de-arbol-color-verde.jpg?rlkey=7f0q4169c9ftevjzul5mo2s9i&st=qbferv2c&dl=1",
-        Precio: "$5.000",
-        Descripcion: "Versión verde con diseño navideño, ideal para decorar cualquier tipo de árbol."
+        Precio: "$5.000"
       }
     ];
 
@@ -193,10 +204,8 @@
             <img src="${p.Imagen}" alt="${p.Producto}">
             <h3>${p.Producto}</h3>
             <p class="precio">${p.Precio}</p>
-            <button class="btn-ver" onclick="toggleDescripcion(${i})">
-              ${mostrarDescripcion ? "Ver menos" : "Ver más"}
-            </button>
-            ${mostrarDescripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
+            ${p.Descripcion ? `<button class="btn-ver" onclick="toggleDescripcion(${i})">${mostrarDescripcion ? "Ver menos" : "Ver más"}</button>` : ""}
+            ${mostrarDescripcion && p.Descripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
             <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
               ${elegido ? '✓ Elegido' : 'Elegir'}
             </button>
@@ -237,18 +246,21 @@
       seleccionados.forEach(i => {
         texto += `<li>${productos[i].Producto} - ${productos[i].Precio}</li>`;
       });
-      texto += "</ul><button onclick='enviarWhatsApp()' class='btn-whatsapp'>Enviar pedido por WhatsApp</button>";
+      texto += `</ul>
+        <p>Por favor ingresa tu nombre para continuar:</p>
+        <input id='nombreCliente' type='text' class='nombre-input' placeholder='Tu nombre aquí'>
+        <br><br>
+        <button onclick='enviarWhatsApp()' class='btn-whatsapp'>Enviar pedido por WhatsApp</button>`;
       resumen.innerHTML = texto;
     }
 
     function enviarWhatsApp() {
-      const nombre = prompt("Escribe tu nombre:");
-      const telefono = prompt("Tu número de contacto:");
-      if (!nombre || !telefono) {
-        alert("Por favor, completa tus datos para continuar.");
+      const nombre = document.getElementById("nombreCliente").value.trim();
+      if (!nombre) {
+        alert("Por favor, ingresa tu nombre para continuar.");
         return;
       }
-      let mensaje = `Hola, soy ${nombre} (${telefono}). Me gustaría comprar:\n\n`;
+      let mensaje = `Hola, soy ${nombre}. Me gustaría comprar:\n\n`;
       seleccionados.forEach(i => {
         mensaje += `- ${productos[i].Producto} (${productos[i].Precio})\n`;
       });
