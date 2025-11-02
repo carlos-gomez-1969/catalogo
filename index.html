@@ -207,7 +207,7 @@
             ${p.Descripcion ? `<button class="btn-ver" onclick="toggleDescripcion(${i})">${mostrarDescripcion ? "Ver menos" : "Ver más"}</button>` : ""}
             ${mostrarDescripcion && p.Descripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
             <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
-              ${elegido ? '✓ Elegido' : 'Elegir'}
+              ${elegido ? '✓ Elegido (clic para quitar)' : 'Elegir'}
             </button>
           </div>
         `;
@@ -272,3 +272,4 @@
   </script>
 </body>
 </html>
+
