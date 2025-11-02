@@ -205,7 +205,7 @@
             <img src="${p.Imagen}" alt="${p.Producto}">
             <h3>${p.Producto}</h3>
             <p class="precio">${p.Precio}</p>
-            ${p.Descripcion ? `<button class="btn-ver" onclick="toggleDescripcion(${i})">${mostrarDescripcion ? "Ver menos" : "Ver más"}</button>` : ""}
+            ${p.Descripcion ? `<button class="btn-ver" onclick="toggleDescripcion(${i})">${mostrarDescripcion ? "Cerrar Descripción" : "Ver Descripción"}</button>` : ""}
             ${mostrarDescripcion && p.Descripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
             <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
               ${elegido ? '✓ Elegido (clic para quitar)' : 'Elegir'}
@@ -273,5 +273,6 @@
   </script>
 </body>
 </html>
+
 
 
