@@ -65,6 +65,13 @@
       margin: 10px 0;
     }
 
+    .descripcion {
+      font-size: 0.9em;
+      color: #6b4b4b;
+      margin-top: -5px;
+      margin-bottom: 10px;
+    }
+
     .btn-elegir {
       background-color: #e74c3c;
       color: white;
@@ -113,7 +120,6 @@
       background-color: #1EBE57;
     }
 
-    /* Estilo del cuadro para el nombre */
     .nombre-input {
       width: 80%;
       max-width: 400px;
@@ -145,12 +151,20 @@
       {
         Producto: "Pie de árbol color rojo",
         Imagen: "https://dl.dropboxusercontent.com/scl/fi/csj9mr99n5g6hx9uj9qic/Pie-de-arbol-color-rojo.jpg?rlkey=fg5dl8o6zyznd0va6w2iv6tty&st=llj0bp60&dl=1",
-        Precio: "$5.000"
+        Precio: "$5.000",
+        Descripcion: "Hecho a mano con tela de algodón gruesa y detalles en dorado. Ideal para decorar tu árbol con estilo clásico."
       },
       {
         Producto: "Pie de árbol color verde",
         Imagen: "https://dl.dropboxusercontent.com/scl/fi/2zthpks4gv2u98ebxe7kj/Pie-de-arbol-color-verde.jpg?rlkey=7f0q4169c9ftevjzul5mo2s9i&st=qbferv2c&dl=1",
+        Descripcion: "Corona con cintas metálicas doradas y detalles de pino natural. Perfecta para puertas o paredes."
         Precio: "$5.000"
+      },
+      {
+        Producto: "Corona navideña dorada",
+        Imagen: "https://i.imgur.com/j04MC5V.jpg",
+        Precio: "$7.000",
+        
       }
     ];
 
@@ -166,6 +180,7 @@
             <img src="${p.Imagen}" alt="${p.Producto}">
             <h3>${p.Producto}</h3>
             <p class="precio">${p.Precio}</p>
+            ${p.Descripcion ? `<p class="descripcion">${p.Descripcion}</p>` : ""}
             <button onclick="toggleProducto(${i})" class="btn-elegir ${elegido ? 'activo' : ''}">
               ${elegido ? '✓ Elegido (clic para quitar)' : 'Elegir'}
             </button>
@@ -212,6 +227,9 @@
       let mensaje = `Hola, soy ${nombre}. Me gustaría comprar:\n\n`;
       seleccionados.forEach(i => {
         mensaje += `- ${productos[i].Producto} (${productos[i].Precio})\n`;
+        if (productos[i].Descripcion) {
+          mensaje += `  Detalle: ${productos[i].Descripcion}\n`;
+        }
       });
       const url = "https://wa.me/56999256112?text=" + encodeURIComponent(mensaje);
       window.open(url, "_blank");
