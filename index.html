@@ -277,12 +277,21 @@
   justify-content: center;
   transition: all 0.3s ease;
 }
-
+/*==============================*/
 .btn-carrito:hover {
-  background-color: #a81c1c;
   transform: scale(1.08);
+  background-color: #ffffff;   /* mantiene el mismo color blanco */
 }
 
+.btn-carrito:active,
+.btn-carrito:focus {
+  background-color: #ffffff;   /* evita que cambie al hacer clic o mantener presionado */
+  color: #b22222;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+  /*==============================*/
 #contadorCarrito {
   position: absolute;
   top: -5px;
@@ -517,6 +526,7 @@ function actualizarContador() {
   </script>
 </body>
 </html>
+
 
 
 
