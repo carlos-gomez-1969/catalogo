@@ -229,13 +229,84 @@
         height: 220px;
       }
     }
+
+
+    /*------------------------------------------------------------------------------------*/
+    /* ---------- ENCABEZADO FIJO SOLO EN CELULARES ---------- */
+@media (max-width: 600px) {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #fff8f2, #fef2e8);
+    border-bottom: 2px solid #d4af37;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 12px;
+  }
+
+  body {
+    margin-top: 120px;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  header h2 {
+    font-size: 1em;
+    margin-bottom: 8px;
+  }
+
+  .btn-carrito {
+    background-color: #b22222;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3em;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  .btn-carrito:hover {
+    background-color: #d73a3a;
+    transform: scale(1.05);
+  }
+
+  #contadorCarrito {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #27ae60;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+    
+    /*-------------------------------------------------------------------------------------*/
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🎁 El Rincón de la Tati</h1>
-    <h2>Catálogo de Productos Navideños</h2>
+   <h1>🎁 El Rincón de la Tati</h1>
+   <h2>Catálogo de Productos Navideños</h2>
+   <button class="btn-carrito" onclick="irAlResumen()">🛒<span id="contadorCarrito">0</span></button>
   </header>
 
   <main>
@@ -382,6 +453,7 @@
       }
       renderProductos();
       mostrarResumen();
+      actualizarContador(); // 👈 esta línea actualiza el número del carrito
     }
 
     function mostrarResumen() {
@@ -416,10 +488,29 @@
       window.open(url, "_blank");
     }
 
+
+/*---------------------------------------------------------------------------------------------------------*/
+function irAlResumen() {
+  const resumen = document.getElementById("resumen");
+  resumen.scrollIntoView({ behavior: "smooth" });
+}
+
+function actualizarContador() {
+  const contador = document.getElementById("contadorCarrito");
+  if (contador) contador.textContent = seleccionados.length;
+}
+
+
+    
+/*----------------------------------------------------------------------------------------------------------*/    
+    
+
+    
     window.onload = renderProductos;
   </script>
 </body>
 </html>
+
 
 
 
